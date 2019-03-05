@@ -1,10 +1,10 @@
 ### hashMapper
 ## Project dependencies:
-Gradle
-Install Eclipse
-Install Oracle Java8
+ 1. Gradle,
+ 2. Install Eclipse,
+ 3. Install Oracle Java8
 ## Project setup
-In Eclipse, File -> Import..
-Select Gradle (STS) Project and hit next
-Select project root folder (where you cloned this repo) and click Build Model
-When you see HashMapper  click Finish.
+ 1. In Eclipse, File -> Import..
+ 2. Select Gradle (STS) Project and hit next
+ 3. Select project root folder (where you cloned this repo) and click Build Model
+ 4. When you see HashMapper  click Finish.
