@@ -1,0 +1,63 @@
+plugins {
+    id "org.ajoberstar.grgit" version "1.7.1"
+}
+apply plugin: 'java'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'com.yube'
+description = 'Hash mapper'
+
+def appVersion = "1.0.${grgit.repository.jgit.log().call().size()}"
+version = appVersion
+
+def tpsxOutputDir = "$libsDir/hashmapper"
+
+repositories {
+    mavenCentral()
+
+}
+dependencies {
+    implementation files(fileTree(dir: 'lib', includes: ['*.jar']))
+
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:23.0'
+    implementation 'org.hibernate:hibernate-core:5.4.2.Final'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    implementation group: 'org.json', name: 'json', version: '20090211'
+    
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+
+
+jar {
+    libsDirName = tpsxOutputDir
+    manifest {
+        attributes(
+                'Implementation-Version': appVersion,
+                'Main-Class': 'com.yube.frame.MainFrame',
+                'Class-Path': configurations.runtime.collect { 'lib/' + it.getName() }.join(' ')
+        )
+    }
+    doLast {
+        copyResources.execute()
+    }
+}
+
+task copyResources() {
+    doLast{
+        copy {
+            from configurations.runtime
+            into "$tpsxOutputDir/lib"
+        }
+        
+        copy {
+            from 'resources/config/'
+            into "$tpsxOutputDir/resources/config"
+        }
+    }
+}
